@@ -163,32 +163,10 @@ var validateFront = function () {
         $('.bs-callout-warning').addClass('hidden');
         var preemail=$("#preemail").val();
         var emailaddress=$("#emailaddress").val();
+        alert('pre='+preemail);
+        alert("mail="+emailaddress);
         if(preemail!=emailaddress){
-            //------------------------------
-                $.ajax({
-                    type: 'POST',
-                    dataType: 'json',
-                    url: 'scripts/updateemail.php?method=sendotp',
-                    data: {
-                        'newemail': emailaddress
-                    }
-                }).done(function (response) {
-                    if (response.sts == 1) {
-                        $('#emailotp').load(
-                            'resetemailotp.php', {
-                                'newemail': response.newemail
-                            },
-                            function () {
-                                $('#emailotp').modal('show');
-                            }
-                        );
-                    } else {
-                        eToast(response.msg, 'Error');
-                    }
-                }).fail(function () {
-                    eToast('Something went wrong', 'Error');
-                });
-            //-------------------------------
+            alert('mail changed');
         }else{
             doctoredit();
         }
@@ -265,32 +243,6 @@ function doctoredit() {
         processData: false
     });
 }
-
-function CheckOtp(newemail){
-//--------------------------------------
-        var otp=$('#otp').val();
-        $.ajax({
-            type: 'POST',
-            dataType: 'json',
-            url: 'scripts/updateemail.php?method=checkotp',
-            data: {
-                'newemail': newemail,
-                'otp' :otp
-            }
-        }).done(function (response) {
-            if(response.sts==1){
-                $("#preemail").val(newemail);
-                $('#emailotp').modal('toggle');
-            }else{
-                eToast('Enter valid otp','Error');
-            }
-        }).fail(function () {
-            bootbox.alert("<span style='color:red' >" + 'Something Went Wrong ....' + "</span>");
-        });
-//--------------------------------------
-}
-
-
 Parsley.addValidator('emailchangeexist', {
     validateString: function (value) {
         var id = $('#doctorid').val();
