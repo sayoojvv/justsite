@@ -5,6 +5,29 @@ $(document).ready(function () {
     }); 
 
 
+   $('.editperson').on('click', function () {
+        var id=$(this).attr('data-id');
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: 'scripts/personadd.php?method=getdata',
+            data: {
+                'id': id
+            }
+        }).done(function (response) {
+            $("#fullname").val(response.data.name);
+            $("#mobile").val(response.data.phone);
+            $("#emailaddress").val(response.data.email);
+            $("#fullname").val(response.data.name);
+            $("#imgthumb").attr('src',response.data.fpath);
+        }).fail(function () {
+            alert("<span style='color:red' >" + 'Something Went Wrong ....' + "</span>");
+        });
+    }); 
+
+
+
+
    $("#personphoto").change(function(){
         readURL(this);
     });
@@ -28,9 +51,10 @@ function personadd() {
         beforeSubmit: function (data) {},
         success: function (data) {
             if (data.sts > 0) {
-                /*setTimeout(function () {
-                	window.location = data.url;
-                }, 1000);*/
+                sToast(data.msg, 'Success');
+                setTimeout(function () {
+                	location.reload();
+                }, 1000);
             } else {
                 eToast(data.msg, 'Error');
             }
