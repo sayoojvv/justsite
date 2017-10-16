@@ -64,7 +64,7 @@ function personadd() {
 Parsley.addValidator('emailexist', {
     validateString: function (value) {
         var xhr = $.ajax({
-            url: 'commonprocess.php?method=emailexist&value=' + value + '&usertype=doctor',
+            url: 'scripts/personadd.php?method=emailexist&value=' + value,
             dataType: 'json'
         });
         return xhr.then(function (json) {
