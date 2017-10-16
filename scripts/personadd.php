@@ -139,6 +139,13 @@ if(isset($_REQUEST)){
 		$result = array('data'=>$persondata);
 		echo json_encode($result);
 		exit;
+ 	}elseif($_GET['method']=='emailexist'){
+	 	$email=$_REQUEST['value'];
+	 	$personsql="select count(1) as cnt from person where email=:email";
+		$result=$db->row($personsql,array('email' => $email));
+		$result=$result['cnt'];
+		echo json_encode($result);
+		exit;
  	}
  }
 
